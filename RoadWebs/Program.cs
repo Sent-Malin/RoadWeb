@@ -1,2 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+using RoadWebs;
+
+Console.WriteLine("Road Webs started! \n");
+
+GamePad gamePad = new GamePad();
+gamePad.StartGame();

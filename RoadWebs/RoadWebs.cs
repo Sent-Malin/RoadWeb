@@ -8,31 +8,28 @@ namespace RoadWebs;
 
 public class RoadWebs
 {
-    private Cell[][] field;
+    public int setCountRounds = 7;
+    public int _roundNow;
+    public int _activeCellNumber;
+    public int _activeCellX;
+    public int _activeCellY;
 
-    private Cell[][] dices;
-
-    private Cell[] cellsToBuild;
-
-    private int _roundNow;
-
-    private int _activeCellNumber;
-
-    private int _activeCellX;
-
-    private int _activeCellY;
+    public Cell[][] field;
+    public Cell[][] dices;
+    public Cell[] cellsToBuild;
+    
 
     public RoadWebs()
     {
         field = [
             GetSystemRowCell(),
-            [new Cell("[]") { system = true },  new Cell("[]"), new Cell("[]"), new Cell("[]"), new Cell("[]"), new Cell("[]"), new Cell("[]"), new Cell("[]"), new Cell("[]") { system = true }],
-            [GetSystemHorizontalStraightRail(), new Cell("[]"), new Cell("[]"), new Cell("[]"), new Cell("[]"), new Cell("[]"), new Cell("[]"), new Cell("[]"), GetSystemHorizontalStraightRail()],
-            [new Cell("[]") { system = true },  new Cell("[]"), new Cell("[]"), new Cell("{}"), new Cell("{}"), new Cell("{}"), new Cell("[]"), new Cell("[]"), new Cell("[]") { system = true }],
-            [GetSystemHorizontalStraightRoad(), new Cell("[]"), new Cell("[]"), new Cell("{}"), new Cell("{}"), new Cell("{}"), new Cell("[]"), new Cell("[]"), GetSystemHorizontalStraightRoad()],
-            [new Cell("[]") { system = true },  new Cell("[]"), new Cell("[]"), new Cell("{}"), new Cell("{}"), new Cell("{}"), new Cell("[]"), new Cell("[]"), new Cell("[]") { system = true }],
-            [GetSystemHorizontalStraightRail(), new Cell("[]"), new Cell("[]"), new Cell("[]"), new Cell("[]"), new Cell("[]"), new Cell("[]"), new Cell("[]"), GetSystemHorizontalStraightRail()],
-            [new Cell("[]") { system = true },  new Cell("[]"), new Cell("[]"), new Cell("[]"), new Cell("[]"), new Cell("[]"), new Cell("[]"), new Cell("[]"), new Cell("[]") { system = true }],
+            [new Cell("·") { system = true },  new Cell("·"), new Cell("·"), new Cell("·"), new Cell("·"), new Cell("·"), new Cell("·"), new Cell("·"), new Cell("·") { system = true }],
+            [GetSystemHorizontalStraightRail(), new Cell("·"), new Cell("·"), new Cell("·"), new Cell("·"), new Cell("·"), new Cell("·"), new Cell("·"), GetSystemHorizontalStraightRail()],
+            [new Cell("·") { system = true },  new Cell("·"), new Cell("·"), new Cell("$"), new Cell("$"), new Cell("$"), new Cell("·"), new Cell("·"), new Cell("·") { system = true }],
+            [GetSystemHorizontalStraightRoad(), new Cell("·"), new Cell("·"), new Cell("$"), new Cell("$"), new Cell("$"), new Cell("·"), new Cell("·"), GetSystemHorizontalStraightRoad()],
+            [new Cell("·") { system = true },  new Cell("·"), new Cell("·"), new Cell("$"), new Cell("$"), new Cell("$"), new Cell("·"), new Cell("·"), new Cell("·") { system = true }],
+            [GetSystemHorizontalStraightRail(), new Cell("·"), new Cell("·"), new Cell("·"), new Cell("·"), new Cell("·"), new Cell("·"), new Cell("·"), GetSystemHorizontalStraightRail()],
+            [new Cell("·") { system = true },  new Cell("·"), new Cell("·"), new Cell("·"), new Cell("·"), new Cell("·"), new Cell("·"), new Cell("·"), new Cell("·") { system = true }],
             GetSystemRowCell(),
         ];
 
@@ -42,15 +39,22 @@ public class RoadWebs
         dices = GetRoadsDices();
     }
 
-    public string SetActiveRoad(int number)
+    public void SetActiveSection(int x, int y, int indexAvailableDice)
     {
-        _activeCellNumber = number;
-        return cellsToBuild[_activeCellNumber].symbol;
+        if (cellsToBuild[indexAvailableDice] == null)
+            return;
+        field[x][y] = cellsToBuild[indexAvailableDice];
+        cellsToBuild[indexAvailableDice] = null;
     }
 
-    public string TrySetActiveSection(int x, int y)
+    public void RollDices()
     {
-        return String.Empty;
+        cellsToBuild = new Cell[dices.Length];
+        Random rnd = new Random();
+        for (int i = 0; i < cellsToBuild.Length; i++)
+        {
+            cellsToBuild[i] = dices[i][rnd.Next(0, dices[0].Length - 1)];
+        }
     }
 
     public bool TryBuildRoad(int x, int y, out string error)
@@ -64,7 +68,7 @@ public class RoadWebs
         //check place
 
 
-        if (field[x][y].symbol != "{}" && field[x][y].symbol != "[]")
+        if (field[x][y].symbol != "$" && field[x][y].symbol != "·")
         {
             if (field[x][y].roundNumber != _roundNow)
             {
@@ -83,35 +87,56 @@ public class RoadWebs
 
 
 
-    public string Rotate()
+    public string Rotate(int indexAvailable)
     {
-        return cellsToBuild[_activeCellNumber].Rotate();
+        return cellsToBuild[indexAvailable].Rotate();
     }
 
     private Cell[][] GetRoadsDices()
     {
         return [
-            [new Cell() { symbol = "─", variants = ["─", "│"], station = false, leftWay = Roads.Roads.Rails, topWay = Roads.Roads.None, rightWay = Roads.Roads.Rails, bottomWay = Roads.Roads.None }],
-            [new Cell() { symbol = "┌", variants = ["┌", "┐", "┘", "└"], station = false, leftWay = Roads.Roads.None, topWay = Roads.Roads.None, rightWay = Roads.Roads.Rails, bottomWay = Roads.Roads.Rails }],
-            [new Cell() { symbol = "║", variants = ["║", "═"], station = false, leftWay = Roads.Roads.None, topWay = Roads.Roads.Road, rightWay = Roads.Roads.None, bottomWay = Roads.Roads.Road }],
-            [new Cell() { symbol = "╔", variants = ["╔", "╗", "╝", "╚"], station = false, leftWay = Roads.Roads.None, topWay = Roads.Roads.None, rightWay = Roads.Roads.Road, bottomWay = Roads.Roads.Road }],
-            [new Cell() { symbol = "╠", variants = ["╠", "╦", "╣", "╩"], station = false, leftWay = Roads.Roads.None, topWay = Roads.Roads.Road, rightWay = Roads.Roads.Road, bottomWay = Roads.Roads.Road }],
-            [new Cell() { symbol = "├", variants = ["├", "┬", "┤", "┴"], station = false, leftWay = Roads.Roads.None, topWay = Roads.Roads.Rails, rightWay = Roads.Roads.Rails, bottomWay = Roads.Roads.Rails }]
-            ]; 
+            [new Cell() { symbol = "─", variants = ["─", "│"], station = false, leftWay = Roads.Roads.Rails, topWay = Roads.Roads.None, rightWay = Roads.Roads.Rails, bottomWay = Roads.Roads.None },
+             new Cell() { symbol = "┌", variants = ["┌", "┐", "┘", "└"], station = false, leftWay = Roads.Roads.None, topWay = Roads.Roads.None, rightWay = Roads.Roads.Rails, bottomWay = Roads.Roads.Rails },
+             new Cell() { symbol = "║", variants = ["║", "═"], station = false, leftWay = Roads.Roads.None, topWay = Roads.Roads.Road, rightWay = Roads.Roads.None, bottomWay = Roads.Roads.Road },
+             new Cell() { symbol = "╔", variants = ["╔", "╗", "╝", "╚"], station = false, leftWay = Roads.Roads.None, topWay = Roads.Roads.None, rightWay = Roads.Roads.Road, bottomWay = Roads.Roads.Road },
+             new Cell() { symbol = "╠", variants = ["╠", "╦", "╣", "╩"], station = false, leftWay = Roads.Roads.None, topWay = Roads.Roads.Road, rightWay = Roads.Roads.Road, bottomWay = Roads.Roads.Road },
+             new Cell() { symbol = "├", variants = ["├", "┬", "┤", "┴"], station = false, leftWay = Roads.Roads.None, topWay = Roads.Roads.Rails, rightWay = Roads.Roads.Rails, bottomWay = Roads.Roads.Rails }],
+            
+            [new Cell() { symbol = "─", variants = ["─", "│"], station = false, leftWay = Roads.Roads.Rails, topWay = Roads.Roads.None, rightWay = Roads.Roads.Rails, bottomWay = Roads.Roads.None },
+             new Cell() { symbol = "┌", variants = ["┌", "┐", "┘", "└"], station = false, leftWay = Roads.Roads.None, topWay = Roads.Roads.None, rightWay = Roads.Roads.Rails, bottomWay = Roads.Roads.Rails },
+             new Cell() { symbol = "║", variants = ["║", "═"], station = false, leftWay = Roads.Roads.None, topWay = Roads.Roads.Road, rightWay = Roads.Roads.None, bottomWay = Roads.Roads.Road },
+             new Cell() { symbol = "╔", variants = ["╔", "╗", "╝", "╚"], station = false, leftWay = Roads.Roads.None, topWay = Roads.Roads.None, rightWay = Roads.Roads.Road, bottomWay = Roads.Roads.Road },
+             new Cell() { symbol = "╠", variants = ["╠", "╦", "╣", "╩"], station = false, leftWay = Roads.Roads.None, topWay = Roads.Roads.Road, rightWay = Roads.Roads.Road, bottomWay = Roads.Roads.Road },
+             new Cell() { symbol = "├", variants = ["├", "┬", "┤", "┴"], station = false, leftWay = Roads.Roads.None, topWay = Roads.Roads.Rails, rightWay = Roads.Roads.Rails, bottomWay = Roads.Roads.Rails }],
+            
+            [new Cell() { symbol = "─", variants = ["─", "│"], station = false, leftWay = Roads.Roads.Rails, topWay = Roads.Roads.None, rightWay = Roads.Roads.Rails, bottomWay = Roads.Roads.None },
+             new Cell() { symbol = "┌", variants = ["┌", "┐", "┘", "└"], station = false, leftWay = Roads.Roads.None, topWay = Roads.Roads.None, rightWay = Roads.Roads.Rails, bottomWay = Roads.Roads.Rails },
+             new Cell() { symbol = "║", variants = ["║", "═"], station = false, leftWay = Roads.Roads.None, topWay = Roads.Roads.Road, rightWay = Roads.Roads.None, bottomWay = Roads.Roads.Road },
+             new Cell() { symbol = "╔", variants = ["╔", "╗", "╝", "╚"], station = false, leftWay = Roads.Roads.None, topWay = Roads.Roads.None, rightWay = Roads.Roads.Road, bottomWay = Roads.Roads.Road },
+             new Cell() { symbol = "╠", variants = ["╠", "╦", "╣", "╩"], station = false, leftWay = Roads.Roads.None, topWay = Roads.Roads.Road, rightWay = Roads.Roads.Road, bottomWay = Roads.Roads.Road },
+             new Cell() { symbol = "├", variants = ["├", "┬", "┤", "┴"], station = false, leftWay = Roads.Roads.None, topWay = Roads.Roads.Rails, rightWay = Roads.Roads.Rails, bottomWay = Roads.Roads.Rails }],
+            
+            [new Cell() { symbol = "╫", variants = ["╫", "╪"], station = false, leftWay = Roads.Roads.Rails, topWay = Roads.Roads.Road, rightWay = Roads.Roads.Rails, bottomWay = Roads.Roads.Road },
+             new Cell() { symbol = "╫", variants = ["╫", "╪"], station = false, leftWay = Roads.Roads.Rails, topWay = Roads.Roads.Road, rightWay = Roads.Roads.Rails, bottomWay = Roads.Roads.Road },
+             new Cell() { symbol = "╒", variants = ["╒", "╖", "╛", "╙"], station = true, leftWay = Roads.Roads.None, topWay = Roads.Roads.None, rightWay = Roads.Roads.Road, bottomWay = Roads.Roads.Rails },
+             new Cell() { symbol = "╕", variants = ["╕", "╜", "╘", "╓"], station = true, leftWay = Roads.Roads.Road, topWay = Roads.Roads.Road, rightWay = Roads.Roads.None, bottomWay = Roads.Roads.Rails },
+             new Cell() { symbol = "╤", variants = ["╤", "╢", "╧", "╟"], station = true, leftWay = Roads.Roads.None, topWay = Roads.Roads.Road, rightWay = Roads.Roads.None, bottomWay = Roads.Roads.Rails },
+             new Cell() { symbol = "╤", variants = ["╤", "╢", "╧", "╟"], station = true, leftWay = Roads.Roads.None, topWay = Roads.Roads.Road, rightWay = Roads.Roads.None, bottomWay = Roads.Roads.Rails }],
+        ]; 
     }
 
     private Cell[] GetSystemRowCell()
     {
         return [
-                new Cell("[]") { system = true },
-                new Cell("[]") { system = true },
+                new Cell("·") { system = true },
+                new Cell("·") { system = true },
                 new Cell("║") { system = true, leftWay = Roads.Roads.None, topWay = Roads.Roads.Road, rightWay = Roads.Roads.None, bottomWay = Roads.Roads.Road },
-                new Cell("[]") { system = true },
+                new Cell("·") { system = true },
                 new Cell("│") { system = true, leftWay = Roads.Roads.None, topWay = Roads.Roads.Rails, rightWay = Roads.Roads.None, bottomWay = Roads.Roads.Rails },
-                new Cell("[]") { system = true },
+                new Cell("·") { system = true },
                 new Cell("║") { system = true, leftWay = Roads.Roads.None, topWay = Roads.Roads.Road, rightWay = Roads.Roads.None, bottomWay = Roads.Roads.Road },
-                new Cell("[]") { system = true },
-                new Cell("[]") { system = true },
+                new Cell("·") { system = true },
+                new Cell("·") { system = true },
             ];
     }
 
@@ -145,7 +170,7 @@ public class RoadWebs
         };
     }
 
-    private class Cell
+    public class Cell
     {
         public string[] variants;
         public string symbol;
@@ -161,7 +186,7 @@ public class RoadWebs
 
         public Cell()
         {
-            symbol = "[]";
+            symbol = "·";
             isBuilded = false;
             variants = new string[0];
             this.station = false;

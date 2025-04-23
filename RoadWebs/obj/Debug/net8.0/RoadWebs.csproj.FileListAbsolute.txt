@@ -1,0 +1,15 @@
+C:\Users\dimae\source\repos\RoadWebs\RoadWebs\bin\Debug\net8.0\RoadWebs.exe
+C:\Users\dimae\source\repos\RoadWebs\RoadWebs\bin\Debug\net8.0\RoadWebs.deps.json
+C:\Users\dimae\source\repos\RoadWebs\RoadWebs\bin\Debug\net8.0\RoadWebs.runtimeconfig.json
+C:\Users\dimae\source\repos\RoadWebs\RoadWebs\bin\Debug\net8.0\RoadWebs.dll
+C:\Users\dimae\source\repos\RoadWebs\RoadWebs\bin\Debug\net8.0\RoadWebs.pdb
+C:\Users\dimae\source\repos\RoadWebs\RoadWebs\obj\Debug\net8.0\RoadWebs.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\dimae\source\repos\RoadWebs\RoadWebs\obj\Debug\net8.0\RoadWebs.AssemblyInfoInputs.cache
+C:\Users\dimae\source\repos\RoadWebs\RoadWebs\obj\Debug\net8.0\RoadWebs.AssemblyInfo.cs
+C:\Users\dimae\source\repos\RoadWebs\RoadWebs\obj\Debug\net8.0\RoadWebs.csproj.CoreCompileInputs.cache
+C:\Users\dimae\source\repos\RoadWebs\RoadWebs\obj\Debug\net8.0\RoadWebs.sourcelink.json
+C:\Users\dimae\source\repos\RoadWebs\RoadWebs\obj\Debug\net8.0\RoadWebs.dll
+C:\Users\dimae\source\repos\RoadWebs\RoadWebs\obj\Debug\net8.0\refint\RoadWebs.dll
+C:\Users\dimae\source\repos\RoadWebs\RoadWebs\obj\Debug\net8.0\RoadWebs.pdb
+C:\Users\dimae\source\repos\RoadWebs\RoadWebs\obj\Debug\net8.0\RoadWebs.genruntimeconfig.cache
+C:\Users\dimae\source\repos\RoadWebs\RoadWebs\obj\Debug\net8.0\ref\RoadWebs.dll

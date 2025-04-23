@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RoadWebs")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2286bc125a5e9cc8859967790e9f3a1229574acb")]
 [assembly: System.Reflection.AssemblyProductAttribute("RoadWebs")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RoadWebs")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
